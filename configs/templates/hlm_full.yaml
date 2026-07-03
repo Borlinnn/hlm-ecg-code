@@ -1,0 +1,19 @@
+run_name: hlm_full_seed0
+seed: 0
+base_config: configs/full_baseline.yaml
+masking:
+  train_masking: random_plus_structured
+  missing_counts: [0, 1, 3, 6]
+  structured_patterns:
+    - limb-only
+    - precordial-only
+    - V1-V3-missing
+    - V4-V6-missing
+model:
+  availability_embedding: true
+  subclass_head: true
+loss:
+  lambda_sub: 0.2
+  lambda_hier: 0.1
+  lambda_cons: 0.1
+  gamma: 1.0

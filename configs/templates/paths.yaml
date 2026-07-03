@@ -1,0 +1,3 @@
+data_root: data/ptb-xl
+day1_out: outputs/day1_audit
+outputs_root: outputs

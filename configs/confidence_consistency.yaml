@@ -1,0 +1,81 @@
+seed: 42
+device: auto
+
+paths:
+  data_root: data/ptb-xl
+  day1_index: outputs/day1_audit/ptbxl_day1_index.csv
+  norm_stats: outputs/day1_audit/train_norm_stats.npz
+  output_dir: outputs/week2_confidence_consistency/consistency_seed42
+  subclass_index: outputs/week2_confidence_consistency/consistency_seed42/subclass_index_seed42.csv
+  subclass_vocab: outputs/week2_confidence_consistency/consistency_seed42/subclass_vocab_seed42.json
+  subclass_parent_mapping: outputs/week2_confidence_consistency/consistency_seed42/subclass_parent_mapping_seed42.json
+
+model:
+  in_channels: 12
+  num_classes: 5
+  base_channels: 16
+  layers: [1, 1, 1, 1]
+  kernel_size: 7
+  use_availability_embedding: true
+  availability_embedding_dim: 32
+  mask_mlp_hidden_dim: 32
+  enable_subclass_auxiliary: true
+  num_subclasses: null
+  subclass_auxiliary_head: true
+  use_hierarchy_loss: false
+  hierarchy_loss: false
+  lambda_hier: 0.0
+  use_confidence_weighted_consistency: true
+  confidence_weighted_consistency: true
+  lambda_cons: 0.1
+  calibration: false
+
+training:
+  batch_size: 32
+  num_workers: 0
+  max_epochs: 30
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: reduce_on_plateau
+  early_stopping_patience: 8
+
+subclass_auxiliary:
+  enabled: true
+  min_train_pos: 50
+  lambda_sub: 0.2
+  subclass_loss_ignore_only_dropped: true
+
+confidence_consistency:
+  enabled: true
+  lambda_cons: 0.1
+  consistency_gamma: 1.0
+  superclass_only: true
+  note: "A5 adds superclass-only confidence-weighted full-to-masked consistency on top of A4a; hierarchy loss is disabled."
+
+hierarchy_loss:
+  enabled: false
+  lambda_hier: 0.0
+
+structured_masking:
+  enabled: true
+  fill_mode: mean_fill
+  random_missing_counts: [0, 1, 3, 6]
+  random_prob: 0.5
+  structured_prob: 0.5
+  structured_patterns:
+    - limb_only__precordial_missing
+    - precordial_only__limb_missing
+    - V1_V3_missing
+    - V4_V6_missing
+  min_available_leads: 1
+  seed: 42
+
+evaluation:
+  batch_size: 64
+  num_workers: 0
+  pattern_seed: 20240604
+
+smoke:
+  train_limit: 64
+  val_limit: 64
+  test_limit: 64

@@ -1,0 +1,10 @@
+run_name: random_dropout_seed0
+seed: 0
+base_config: configs/full_baseline.yaml
+masking:
+  train_masking: random_dropout
+  missing_counts: [0, 1, 3, 6]
+  ensure_at_least_one_lead: true
+  availability_embedding: false
+  hierarchy: false
+  consistency: false

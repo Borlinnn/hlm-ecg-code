@@ -1,0 +1,23 @@
+name: hlm-ecg
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - pyyaml
+  - tqdm
+  - pytest
+  - pytorch
+  - cpuonly
+  - pip:
+      - wfdb
+      - rich
+      - joblib
+      - requests

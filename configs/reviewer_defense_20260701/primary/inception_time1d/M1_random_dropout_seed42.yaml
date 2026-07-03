@@ -1,0 +1,53 @@
+seed: 42
+device: auto
+paths:
+  data_root: data/ptb-xl
+  day1_index: outputs/day1_audit/ptbxl_day1_index.csv
+  norm_stats: outputs/day1_audit/train_norm_stats.npz
+  output_dir: outputs/reviewer_defense_20260701/primary/inception_time1d/M1_random_dropout/seed42
+model:
+  in_channels: 12
+  num_classes: 5
+  signal_length: 1000
+  architecture: inception_time1d
+  base_channels: 32
+  inception_depth: 6
+  inception_bottleneck_channels: 32
+training:
+  batch_size: 32
+  num_workers: 0
+  max_epochs: 30
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: reduce_on_plateau
+  early_stopping_patience: 8
+evaluation:
+  batch_size: 64
+  num_workers: 0
+  pattern_seed: 20240604
+smoke:
+  train_limit: 64
+  val_limit: 64
+  test_limit: 64
+reviewer_defense:
+  group: primary
+  method_id: M1_random_dropout
+  backbone: inception_time1d
+  seed: 42
+  tag: ''
+  threshold_source_split: val
+train_augmentation:
+  enabled: true
+  missing_counts:
+  - 0
+  - 1
+  - 3
+  - 6
+  probabilities:
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
+  fill_mode: mean_fill
+  min_available_leads: 1
+  seed: 42

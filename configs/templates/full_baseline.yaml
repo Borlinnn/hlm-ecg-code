@@ -1,0 +1,20 @@
+run_name: full_baseline_seed0
+seed: 0
+paths:
+  data_root: data/ptb-xl
+  index_csv: outputs/day1_audit/ptbxl_day1_index.csv
+  norm_stats: outputs/day1_audit/train_norm_stats.npz
+  output_dir: outputs/full_baseline_seed0
+model:
+  name: resnet1d_wang
+  in_channels: 12
+  num_classes: 5
+training:
+  epochs: 50
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 0.0001
+  monitor: val_macro_auprc
+  device: cuda
+loss:
+  name: bce_with_logits

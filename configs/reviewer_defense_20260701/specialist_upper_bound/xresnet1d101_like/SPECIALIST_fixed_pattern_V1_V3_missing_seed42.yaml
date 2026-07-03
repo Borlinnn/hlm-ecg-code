@@ -1,0 +1,62 @@
+seed: 42
+device: auto
+paths:
+  data_root: data/ptb-xl
+  day1_index: outputs/day1_audit/ptbxl_day1_index.csv
+  norm_stats: outputs/day1_audit/train_norm_stats.npz
+  output_dir: outputs/reviewer_defense_20260701/specialist_upper_bound/xresnet1d101_like/SPECIALIST_fixed_pattern_V1_V3_missing/seed42
+model:
+  in_channels: 12
+  num_classes: 5
+  signal_length: 1000
+  architecture: xresnet1d101_like
+  base_channels: 16
+  layers:
+  - 3
+  - 4
+  - 23
+  - 3
+  kernel_size: 7
+training:
+  batch_size: 32
+  num_workers: 0
+  max_epochs: 30
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: reduce_on_plateau
+  early_stopping_patience: 8
+evaluation:
+  batch_size: 64
+  num_workers: 0
+  pattern_seed: 20240604
+smoke:
+  train_limit: 64
+  val_limit: 64
+  test_limit: 64
+reviewer_defense:
+  group: specialist_upper_bound
+  method_id: SPECIALIST_fixed_pattern
+  backbone: xresnet1d101_like
+  seed: 42
+  tag: V1_V3_missing
+  threshold_source_split: val
+structured_masking:
+  enabled: true
+  fill_mode: mean_fill
+  random_missing_counts:
+  - 0
+  - 1
+  - 3
+  - 6
+  random_prob: 0.5
+  structured_prob: 0.5
+  structured_patterns:
+  - limb_only__precordial_missing
+  - precordial_only__limb_missing
+  - V1_V3_missing
+  - V4_V6_missing
+  min_available_leads: 1
+  seed: 42
+week6_specialist:
+  pattern: V1-V3 missing
+  imputation_strategy: mean_fill
